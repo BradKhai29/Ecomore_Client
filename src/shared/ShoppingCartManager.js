@@ -1,4 +1,12 @@
 class CartItem {
+	/**
+	 * The constructor to create a new CartItem instance.
+	 * @param {String} productId Id of the product belong to this cart item.
+	 * @param {String} productName Name of the product belong to this cart item.
+	 * @param {Number} unitPrice Unit price of the product belong to this cart item.
+	 * @param {String} imageUrl The image of the product belong to this cart item.
+	 * @param {Number} quantity The current quantity of this product in the shopping cart.
+	 */
 	constructor(productId, productName, unitPrice, imageUrl, quantity) {
 		this.productId = productId;
 		this.productName = productName;
@@ -34,8 +42,9 @@ class ShoppingCartManager {
 	 * @param {CallBack[]} addToCartCallbacks List of callback will be called whenever the
 	 * add-to-cart method is invoked on this AppShoppingCart instance.
 	 * @param {Number} totalPrice Total price of this shopping cart.
+	 * @param {Number} itemCount Total numbers of item in this shopping cart.
 	 */
-	constructor(cartItems, addToCartCallbacks, totalPrice) {
+	constructor(cartItems, addToCartCallbacks, totalPrice, itemCount) {
 		this.cartItems = cartItems;
 		this.addToCartCallbacks = addToCartCallbacks;
 		if (totalPrice == null || totalPrice == undefined) {
@@ -43,6 +52,8 @@ class ShoppingCartManager {
 		} else {
 			this.totalPrice = totalPrice;
 		}
+
+		this.itemCount = itemCount;
 	}
 
 	/**
@@ -51,7 +62,7 @@ class ShoppingCartManager {
 	 * @returns {Number} The number of cartItem in this shopping cart.
 	 */
 	getItemCount() {
-		return this.cartItems.length;
+		return this.itemCount;
 	}
 
 	/**
@@ -74,6 +85,7 @@ class ShoppingCartManager {
 		// Update subTotal price of the input
 		// cartItem to totalPrice of this cart.
 		this.totalPrice += cartItem.quantity * cartItem.unitPrice;
+		this.itemCount += cartItem.quantity;
 	}
 
 	/**
@@ -87,6 +99,7 @@ class ShoppingCartManager {
 			if (foundItem.productId == productId) {
 				this.cartItems.splice(i, 1);
 				this.totalPrice -= foundItem.getSubTotal();
+				this.itemCount -= foundItem.quantity;
 
 				return;
 			}
@@ -116,6 +129,7 @@ class ShoppingCartManager {
 			// Update the subTotal price of the input
 			// cartItem to totalPrice of this cart.
 			this.totalPrice += quantity * foundItem.unitPrice;
+			this.itemCount += quantity;
 		}
 	}
 
@@ -124,10 +138,10 @@ class ShoppingCartManager {
 	 */
 	updateCart() {
 		// Call the callbacks to update the shopping cart on the page.
-		if (this.addToCartCallbacks.length > 0) {
-			for (const callbackItem of this.addToCartCallbacks) {
-				callbackItem.callback();
-			}
+		for (const callbackItem of this.addToCartCallbacks) {
+			console.log(`Start: [${callbackItem.callbackId}]`);
+			callbackItem.callback();
+			console.log(`End: [${callbackItem.callbackId}]`);
 		}
 	}
 
@@ -146,12 +160,12 @@ class ShoppingCartManager {
 	/**
 	 * Add current item's callback into this shoppingCart state management.
 	 * This callback will be later invoked when any change is detected.
-	 * @param {String} callbackId Id of the callback.
+	 * @param {String} id Id of the callback.
 	 * @param {CallBack} callback The callback that added.
 	 */
-	addCallback(callbackId, callback) {
+	addCallback(id, callback) {
 		const findCallback = this.addToCartCallbacks.find(
-			(item) => item.callbackId == callbackId
+			(item) => item.callbackId == id
 		);
 
 		if (findCallback) {
@@ -159,7 +173,7 @@ class ShoppingCartManager {
 			return;
 		}
 
-		const callbackItem = new CallBack(callbackId, callback);
+		const callbackItem = new CallBack(id, callback);
 		this.addToCartCallbacks.push(callbackItem);
 	}
 
@@ -180,5 +194,5 @@ class ShoppingCartManager {
 	}
 }
 
-const shoppingCart = new ShoppingCartManager([], [], 0);
+const shoppingCart = new ShoppingCartManager([], [], 0, 0);
 export { CartItem, ShoppingCartManager, shoppingCart };

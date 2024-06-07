@@ -34,18 +34,12 @@
                 <section class="flex-row d-flex d-lg-none">
                     <a
                         href="#"
-                        @click="toggleCart"
-                        :class="['nav-icon', toggleCartClass]"
-                    >
-                        <img class="w-100" src="../../assets/cart.svg" />
-                    </a>
-                    <a
-                        href="#"
                         @click="toggleAuth"
-                        :class="['nav-icon', toggleCartClass]"
+                        :class="['nav-icon', toggleAuthClass]"
                     >
-                        <img class="w-100" src="../../assets/user.svg" />
+                        <img class="w-100" src="../../assets/svgs/user.svg" />
                     </a>
+                    <CartButton @click="toggleCart"></CartButton>
                 </section>
                 <section class="navbar-collapse collapse" id="navbarCollapse">
                     <ul class="navbar-nav ms-auto text-start">
@@ -55,26 +49,25 @@
                             >
                         </li>
                         <li class="nav-item">
-                            <a href="about.html" class="nav-link">Sản phẩm</a>
+                            <router-link to="/products" class="nav-link">
+                                Sản phẩm
+                            </router-link>
                         </li>
                         <li class="nav-item">
-                            <a href="contact.html" class="nav-link">Liên hệ</a>
+                            <router-link to="/products" class="nav-link">
+                                Liên hệ
+                            </router-link>
                         </li>
                     </ul>
                 </section>
                 <!-- Display for desktop mode -->
                 <section class="flex-row d-lg-flex d-none">
-                    <button
-                        @click="toggleCart"
-                        :class="['btn btn-link p-0 nav-icon', toggleCartClass]"
-                    >
-                        <img class="w-100" src="../../assets/cart.svg" />
-                    </button>
+                    <CartButton @click="toggleCart"></CartButton>
                     <button
                         @click="toggleAuth"
                         :class="['btn btn-link p-0 nav-icon', toggleCartClass]"
                     >
-                        <img class="w-100" src="../../assets/user.svg" />
+                        <img class="w-100" src="../../assets/svgs/user.svg" />
                     </button>
                 </section>
             </nav>
@@ -86,8 +79,7 @@
     <section
         v-show="showAuth"
         @click="hideAuth"
-        class="auth-modal container-fluid"
-        :class="toggleAuthClass"
+        :class="['auth-modal container-fluid',toggleAuthClass]"
     >
         <AuthSection @toggle-auth="toggleAuth" v-show="showAuth"></AuthSection>
     </section>
@@ -97,10 +89,9 @@
     <section
         v-show="showCart"
         @click="hideCart"
-        class="cart-modal container-fluid"
-        :class="toggleCartClass"
+        :class="['cart-modal container-fluid', toggleCartClass]"
     >
-        <ShoppingCart></ShoppingCart>
+        <ShoppingCart @toggle-cart="toggleCart"></ShoppingCart>
     </section>
     <!-- Shopping Cart Section End -->
 </template>
@@ -108,22 +99,21 @@
 <script>
 import AuthSection from "../feats/auths/AuthSection.vue";
 import ShoppingCart from "../feats/shoppingCarts/ShoppingCart.vue";
-
-const toggleAuthClass = "toggleAuth";
-const toggleCartClass = "toggleCart";
+import CartButton from './CartButton.vue';
 
 export default {
     name: "NavigationBar",
     components: {
         AuthSection,
         ShoppingCart,
+        CartButton
     },
     data() {
         return {
             showCart: false,
             showAuth: false,
-            toggleAuthClass: toggleAuthClass,
-            toggleCartClass: toggleCartClass,
+            toggleAuthClass: "toggleAuth",
+            toggleCartClass: "toggleCart",
         };
     },
     methods: {
@@ -134,12 +124,12 @@ export default {
             this.showAuth = !this.showAuth;
         },
         hideAuth(event) {
-            if (event.target.classList.contains(toggleAuthClass)) {
+            if (event.target.classList.contains(this.toggleAuthClass)) {
                 this.showAuth = false;
             }
         },
         hideCart(event) {
-            if (event.target.classList.contains(toggleCartClass)) {
+            if (event.target.classList.contains(this.toggleCartClass)) {
                 this.showCart = false;
             }
         },

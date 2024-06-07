@@ -2,22 +2,19 @@
     <div class="col-lg-3 col-md-6">
         <div class="product-item rounded overflow-hidden">
             <header class="position-relative overflow-hidden product-image">
-                <a href="">
-                    <img class="img-fluid" :src="imageUrlRef" alt="" />
-                </a>
+                <router-link :to="'/product/' + productId">
+                    <img :src="imageUrlRef" alt="anh_san_pham" />
+                </router-link>
                 <div
                     class="bg-primary rounded text-white position-absolute start-0 top-0 m-3 py-1 px-3"
-                >
-                    {{ productStatus }}
-                </div>
-                <div
-                    class="bg-white rounded-top text-primary position-absolute start-0 bottom-0 mx-4 pt-1 px-3"
                 >
                     {{ category }}
                 </div>
             </header>
             <main class="p-3 pb-0 text-start">
-                <a class="d-block h5 mb-2" href="">{{ productName }}</a>
+                <router-link class="d-block h5 mb-2" :to="'/product/' + productId">
+                    {{ productName }}
+                </router-link>
                 <h5 class="text-primary mb-3">{{ productPriceRef }} đ</h5>
             </main>
             <div class="p-3 d-flex border-top">
@@ -29,7 +26,7 @@
                     <span v-if="!isProcessing" class="fw-bold"
                         >Thêm vào giỏ hàng</span
                     >
-                    <LoadingIcon v-if="isProcessing"></LoadingIcon>
+                    <LoadingIcon v-if="isProcessing" :isLight="true"></LoadingIcon>
                 </button>
             </div>
         </div>
@@ -110,5 +107,10 @@ export default {
 <style scoped>
 .product-image {
     height: 240px;
+}
+
+.product-image img {
+    height: 100%;
+    width: 100%;
 }
 </style>

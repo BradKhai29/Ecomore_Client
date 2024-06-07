@@ -11,8 +11,8 @@ class Endpoint {
 const productApiUrl = `${baseUrl}/product`;
 const productApi = {
 	getAll: new Endpoint(productApiUrl + "/all", "get"),
-	getById: new Endpoint(productApiUrl + "/all", "get"),
-	getByCategoryId: new Endpoint(productApiUrl + "/category", "get"),
+	getById: new Endpoint(productApiUrl, "get"),
+	getByCategoryId: new Endpoint(productApiUrl + "/category", "get")
 };
 
 // Shopping Cart Api section.
@@ -25,4 +25,11 @@ const shoppingCartApi = {
 	remove: new Endpoint(cartApiUrl, "delete")
 };
 
-export { Endpoint, productApi, shoppingCartApi };
+const orderApiUrl = `${baseUrl}/order`;
+const orderApi = {
+	checkout: new Endpoint(orderApiUrl, "post"),
+	cancel: new Endpoint(orderApiUrl + "/cancel", "post"),
+	confirm: new Endpoint(orderApiUrl + "/confirm", "post")
+};
+
+export { Endpoint, productApi, shoppingCartApi, orderApi };

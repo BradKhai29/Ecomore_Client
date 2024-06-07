@@ -34,17 +34,14 @@ export default {
                 url: `${productApi.getAll.path}/${this.totalNumberOfProducts}`,
                 method: productApi.getAll.method,
             })
-                .then((response) => {
-                    const body = response.data.body;
-                    if (body == null) {
-                        return;
-                    }
+            .then((response) => {
+                const body = response.data.body;
 
-                    for (const productItem of body) {
-                        this.productList.push(productItem);
-                    }
-                })
-                .catch((err) => console.log(err));
+                for (const productItem of body) {
+                    this.productList.push(productItem);
+                }
+            })
+            .catch((err) => console.log(err));
         },
     },
     mounted() {

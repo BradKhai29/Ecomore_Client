@@ -59,13 +59,30 @@ class CookieHelper {
 		return new Cookie(false);
 	}
 
-	static setCookie(cookieName, cookieValue, expiredDays) {
+	/**
+	 * Set the cookie by the provided name & value.
+	 * The expiration of this cookie is specified by the input live days.
+	 * @param {String} cookieName Name of the cookie.
+	 * @param {String} cookieValue Value of the cookie.
+	 * @param {Number} liveDays Total days this cookie can live.
+	 */
+	static setCookie(cookieName, cookieValue, liveDays) {
 		const dateTimeNow = new Date();
 
-		dateTimeNow.setTime(dateTimeNow.getTime() + expiredDays * 24 * 60 * 60 * 1000);
+		dateTimeNow.setTime(dateTimeNow.getTime() + liveDays * 24 * 60 * 60 * 1000);
 		let expires = "expires=" + dateTimeNow.toUTCString();
 
 		const cookie = `${cookieName}=${cookieValue};expires=${expires};path=/;SameSite=Strict`;
+		document.cookie = cookie;
+	}
+
+	/**
+	 * Remove the cookie with the provided name.
+	 * @param {String} cookieName Name of the cookie to remove.
+	 */
+	static removeCookie(cookieName) {
+		const minDate = "Thu, 01 Jan 1970 00:00:00 UTC";
+		const cookie = `${cookieName}=;expires=${minDate};path=/;`;
 		document.cookie = cookie;
 	}
 }

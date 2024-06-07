@@ -1,5 +1,5 @@
 <template>
-    <li class="bg-white d-flex p-0 mb-3">
+    <li class="w-100 bg-white d-flex p-0 mb-3">
         <div class="col-md-2 col-4">
             <figure class="w-100 border-primary cart-item-image rounded m-0">
                 <img
@@ -69,9 +69,12 @@ import { shoppingCart } from "@/shared/ShoppingCartManager";
 import LoadingIcon from "@/components/shared/LoadingIcon.vue";
 
 export default {
-    mounted() {
-        this.callbackId = `cart_item_${this.productId}`;
-        shoppingCart.addCallback(this.callbackId, this.updateCartItem);
+    beforeMount() {
+        this.callbackId = `checkout_cart_item_${this.productId}`;
+        shoppingCart.addCallback(this.callbackId, this.updateCheckoutCartItem);
+    },
+    beforeUnmount() {
+        shoppingCart.removeCallbackById(this.callbackId);
     },
     props: {
         cartId: String,
@@ -86,7 +89,7 @@ export default {
     },
     data() {
         return {
-            callbackId: null,
+            callbackId: String,
             quantityRef: this.quantity,
             unitPriceRef: moneyHelper.format(this.unitPrice),
             waitingToIncrease: false,
@@ -181,16 +184,14 @@ export default {
 
                 // Remove item from DOM.
                 this.$el.parentNode.removeChild(this.$el);
-
                 shoppingCart.updateCart();
             });
         },
-        updateCartItem() {
+        updateCheckoutCartItem() {
             const cartItem = shoppingCart.getCartItemByProductId(
                 this.productId
             );
 
-            // If the cart item is found, then update the quantity.
             if (cartItem) {
                 this.quantityRef = cartItem.quantity;
             }

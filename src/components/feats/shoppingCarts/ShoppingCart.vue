@@ -1,31 +1,36 @@
 <template>
-    <section class="container cart-section">
-        <div class="row justify-content-center shopping-cart">
-            <div class="col-sm-8 my-shadow rounded p-3 m-0 bg-white">
+    <section class="container cart-section toggleCart">
+        <div class="row justify-content-center shopping-cart toggleCart">
+            <section class="col-sm-8 my-shadow rounded px-3 py-2 m-0 bg-white">
                 <h5 class="d-flex align-items-center">
-                    <span class="me-auto">Giỏ hàng của bạn</span>
-                    <img
-                        class="toggleAuth ms-auto btn btn-white"
-                        src="../../../assets/cross_icon.png"
-                    />
+                    <span class="me-auto">Giỏ hàng ({{ itemCount }} sản phẩm)</span>
+                    <img class="toggleCart ms-auto btn btn-white" src="../../../assets/icons/cross_icon.png" />
                 </h5>
-                <ul class="d-flex flex-column p-0 m-0 cart-items">
-                    <CartItem
-                        v-for="cartItem in cartItems"
-                        :key="cartItem.productId"
-                        :cartId="cartId"
-                        :productId="cartItem.productId"
-                        :productName="cartItem.productName"
-                        :category="cartItem.category"
-                        :imageUrl="cartItem.imageUrl"
-                        :unitPrice="cartItem.unitPrice"
-                        :quantity="cartItem.quantity"
-                    >
-                    </CartItem>
+                <ul v-show="!isCartEmpty" class="d-flex flex-column p-0 m-0 cart-items">
+                    <CartItemComponent v-for="cartItem in cartItems" :key="cartItem.productId" :cartId="cartId"
+                        :productId="cartItem.productId" :productName="cartItem.productName"
+                        :category="cartItem.category" :imageUrl="cartItem.imageUrl" :unitPrice="cartItem.unitPrice"
+                        :quantity="cartItem.quantity">
+                    </CartItemComponent>
                 </ul>
-                <p>Item Count: {{ itemCount }}</p>
-                <p>Total: {{ totalPrice }}</p>
-            </div>
+                <div v-if="isCartEmpty">
+                    <figure class="d-flex justify-content-center">
+                        <img class="img-fluid empty-cart " src="../../../assets/icons/empty-cart.png" alt="" srcset="">
+                        <a class="d-none" href="https://www.flaticon.com/free-icons/empty-cart" title="empty cart icons">Empty cart icons created by kerismaker - Flaticon</a>
+                    </figure>
+                </div>
+            </section>
+            <section v-if="!isCartEmpty" class="col-sm-8 my-shadow rounded px-3 pb-3 mt-2 bg-white">
+                <p class="mt-3 mb-2 d-flex">
+                    <span class="text-dark me-auto">Tạm tính:</span>
+                    <span class="text-dark">{{ totalPriceRef }}đ</span>
+                </p>
+                <div class="d-flex toggleCart" @click="hideCart">
+                    <button @click="goToCheckoutPage" class="flex-fill ms-auto btn btn-outline-primary">
+                        Đi đến thanh toán
+                    </button>
+                </div>
+            </section>
         </div>
     </section>
 </template>
@@ -38,24 +43,33 @@ import cookieHelper from "@/shared/helpers/CookieHelper";
 // Shopping cart dependencies section.
 import { shoppingCartApi } from "@/shared/ApiUrls";
 import { ShoppingCartCookieName } from "@/shared/AppConstants";
-import { shoppingCart } from "@/shared/ShoppingCartManager";
+import { shoppingCart, CartItem } from "@/shared/ShoppingCartManager";
 
 // Import component.
-import CartItem from "./CartItem.vue";
+import CartItemComponent from "./CartItem.vue";
+import moneyHelper from '@/shared/helpers/MoneyHelper';
+const toggleCartEvent = "toggle-cart";
 
 export default {
     components: {
-        CartItem,
+        CartItemComponent,
     },
     data() {
         return {
             cartId: null,
             totalPrice: null,
             itemCount: 0,
-            cartItems: null,
+            cartItems: [],
             isInitShoppingCart: false,
+            isCartEmpty: true,
         };
     },
+    computed: {
+        totalPriceRef() {
+            return moneyHelper.format(this.totalPrice);
+        },
+    },
+    emits: [toggleCartEvent],
     created() {
         const shoppingCartCookie = cookieHelper.getCookieByName(
             ShoppingCartCookieName
@@ -63,7 +77,6 @@ export default {
 
         if (shoppingCartCookie.isExisted) {
             this.cartId = shoppingCartCookie.value;
-            console.log("CartId = " + this.cartId);
         } else {
             this.initShoppingCart();
         }
@@ -89,11 +102,20 @@ export default {
             this.totalPrice = shoppingCartDto.totalPrice;
             this.itemCount = cartItems.length;
 
-            for (const cartItem of cartItems) {
+            for (const item of cartItems) {
+                const cartItem = new CartItem(
+                    item.productId,
+                    item.productName,
+                    item.unitPrice,
+                    item.imageUrl,
+                    item.quantity);
+
                 shoppingCart.addItem(cartItem);
             }
 
             this.cartItems = shoppingCart.cartItems;
+            this.isCartEmpty = cartItems.length == 0;
+            shoppingCart.updateCart();
         })
         .catch(() => {
             this.initShoppingCart();
@@ -104,39 +126,47 @@ export default {
         });
     },
     methods: {
+        hideCart(event) {
+            if (event.target.classList.contains("toggleCart")) {
+                this.$emit(toggleCartEvent);
+            }
+        },
         updateCart() {
             this.cartItems = shoppingCart.cartItems;
             this.totalPrice = shoppingCart.totalPrice;
             this.itemCount = shoppingCart.getItemCount();
+            this.isCartEmpty = this.cartItems.length == 0;
         },
         initShoppingCart() {
-            console.log("Init the shopping cart");
-
             axios({
                 url: shoppingCartApi.init.path,
                 method: shoppingCartApi.init.method,
             })
-                .then((response) => {
-                    this.cartId = response.data.body.cartId;
-                    const liveDays = 30;
+            .then((response) => {
+                this.cartId = response.data.body.cartId;
+                const liveDays = 30;
 
-                    cookieHelper.setCookie(
-                        ShoppingCartCookieName,
-                        this.cartId,
-                        liveDays
-                    );
+                cookieHelper.setCookie(
+                    ShoppingCartCookieName,
+                    this.cartId,
+                    liveDays
+                );
 
-                    this.isInitShoppingCart = true;
-                })
-                .catch((error) => console.log(error));
+                this.isInitShoppingCart = true;
+            })
+            .catch((error) => console.log(error));
+        },
+        goToCheckoutPage() {
+            this.$emit(toggleCartEvent);
+            this.$router.push("/checkout");
         },
         setUpCallback() {
             shoppingCart.addCallback(
-                `${this.cartId}_updateCart`,
+                `shopping_cart_${this.cartId}`,
                 this.updateCart
             );
         },
-    },
+    }
 };
 </script>
 
@@ -145,21 +175,20 @@ export default {
     height: 100%;
 }
 
+.empty-cart {
+    width: 20rem;
+}
+
 .shopping-cart {
     position: sticky;
     top: 4rem;
 }
 
 .cart-items {
-    height: 64vh;
+    max-height: 60vh;
     -ms-overflow-style: none;
-    scrollbar-width: none;
-    overflow-y: scroll;
+    scrollbar-width: 2px;
+    overflow-y: auto;
+    overflow-x: auto;
 }
-
-.cart-items::-webkit-scrollbar {
-  display: none;
-}
-
-
 </style>

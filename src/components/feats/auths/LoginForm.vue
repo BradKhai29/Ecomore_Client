@@ -12,7 +12,7 @@
                     </h4>
                     <img
                         class="toggleAuth ms-auto btn btn-white"
-                        src="../../../assets/cross_icon.png"
+                        src="../../../assets/icons/cross_icon.png"
                     />
                 </div>
                 <form @submit.prevent="" class="text-start d-flex flex-column">
@@ -62,7 +62,7 @@
                         >
                             <img
                                 class="btn btn-light"
-                                src="../../../assets/google.svg"
+                                src="../../../assets/svgs/google.svg"
                                 alt=""
                                 srcset=""
                             />

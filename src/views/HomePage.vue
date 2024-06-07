@@ -21,14 +21,12 @@
                                     dẫn.
                                 </p>
                             </div>
-                            <a href="" class="btn btn-primary p-2 me-2"
-                                ><i class="fa fa-phone-alt me-2"></i>Khám phá
-                                ngay</a
-                            >
-                            <a href="" class="btn btn-dark p-2"
-                                ><i class="fa fa-calendar-alt me-2"></i>Về chúng
-                                tôi</a
-                            >
+                            <router-link to="/products" class="btn btn-primary p-2 me-2">
+                                Khám phá ngay
+                            </router-link>
+                            <router-link to="/" class="btn btn-dark p-2">
+                                Về chúng tôi
+                            </router-link>
                         </div>
                         <div class="col-md-4">
                             <img
@@ -46,38 +44,11 @@
 
     <!-- Category Start -->
     <section class="container mt-4">
-        <section
-            class="text-center mx-auto mb-5 wow fadeInUp"
-            data-wow-delay="0.1s"
-            style="max-width: 600px"
-        >
-            <h4 class="mb-3">
-                HÔM NAY MUA GÌ <span class="text-primary">?</span>
+        <section class="text-center mx-auto mb-5">
+            <h4 class="mb-3 text-primary">
+                HÔM NAY MUA GÌ ?
             </h4>
-        </section>
-        <section class="row g-4">
-            <div
-                v-for="category in categoryList"
-                :key="category.name"
-                class="col-lg-3 col-sm-6 wow fadeInUp"
-                data-wow-delay="0.1s"
-            >
-                <a
-                    class="cat-item d-block bg-light text-center rounded p-3"
-                    href="#"
-                >
-                    <div class="rounded p-4">
-                        <div class="rounded mb-3">
-                            <img
-                                class="img-fluid rounded"
-                                :src="category.imageUrl"
-                                alt="Icon"
-                            />
-                        </div>
-                        <h6>{{ category.name }}</h6>
-                    </div>
-                </a>
-            </div>
+            <CategoryList></CategoryList>
         </section>
     </section>
     <!-- Category End -->
@@ -89,8 +60,8 @@
                 <div class="text-start mx-auto mb-5">
                     <h1 class="mb-3">Có thể bạn quan tâm</h1>
                     <p class="fw-bold">
-                        Danh sách các sản phẩm bán chạy nhất
-                        <span class="text-primary">Ecomorɘ</span>
+                        Danh sách các sản phẩm bán chạy của
+                        <span class="text-primary fw-bold h5">Ecomorɘ</span>
                     </p>
                 </div>
             </div>
@@ -115,9 +86,9 @@
             :totalNumberOfProducts="totalNumberOfProducts"
         ></TopProductList>
         <div class="mt-5 text-center d-flex">
-            <a class="btn btn-dark flex-fill py-2 px-4" href="#">
+            <router-link class="btn btn-dark flex-fill py-2 px-4" to="/products">
                 Xem tất cả sản phẩm
-            </a>
+            </router-link>
         </div>
     </section>
     <!-- Product List End -->
@@ -125,37 +96,17 @@
 
 <script>
 import TopProductList from "../components/feats/products/TopProductList.vue";
+import CategoryList from './categories/CategoryList.vue';
 
 export default {
     data() {
         return {
-            categoryList: [
-                {
-                    name: "Hạt thô",
-                    imageUrl:
-                        "https://res.cloudinary.com/dsjsmbdpw/image/upload/v1717317506/Ecomore/Categories/nut_d43zia.jpg",
-                },
-                {
-                    name: "Hạt qua chế biến",
-                    imageUrl:
-                        "https://res.cloudinary.com/dsjsmbdpw/image/upload/v1717317505/Ecomore/Categories/processed_nut_zbqexf.jpg",
-                },
-                {
-                    name: "Sữa hạt",
-                    imageUrl:
-                        "https://res.cloudinary.com/dsjsmbdpw/image/upload/v1717317505/Ecomore/Categories/milk_hbbbun.jpg",
-                },
-                {
-                    name: "Snack hạt",
-                    imageUrl:
-                        "https://res.cloudinary.com/dsjsmbdpw/image/upload/v1717317506/Ecomore/Categories/snack_jcvbg5.jpg",
-                },
-            ],
             totalNumberOfProducts: 4,
         };
     },
     components: {
         TopProductList,
+        CategoryList
     },
 };
 </script>
