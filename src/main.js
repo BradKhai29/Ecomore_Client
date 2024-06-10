@@ -10,6 +10,8 @@ import CheckoutPage from "./views/checkouts/CheckoutPage.vue";
 import CheckoutDetailPage from "./views/checkouts/CheckoutDetailPage.vue";
 import CheckoutPaymentPage from "./views/checkouts/CheckoutPaymentPage.vue";
 import OrderHistoryPage from "./views/orders/OrderHistoryPage.vue";
+import OrderDetailPage from "./views/orders/OrderDetailPage.vue";
+import CaloriesPage from "./views/calories/CaloriesPage.vue";
 
 function doNothing() {
 	return 0;
@@ -30,6 +32,8 @@ const router = createRouter({
 		{ path: "/checkout/cancel", component: CheckoutPaymentPage },
 		{ path: "/checkout/payment", component: CheckoutPaymentPage },
 		{ path: "/order", component: OrderHistoryPage },
+		{ path: "/order/:orderId", component: OrderDetailPage },
+		{ path: "/calories", component: CaloriesPage }
 	],
 	linkActiveClass: "active",
 	linkExactActiveClass: "exact-active",

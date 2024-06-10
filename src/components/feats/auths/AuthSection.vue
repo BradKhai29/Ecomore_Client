@@ -31,6 +31,7 @@ const forgotPasswordForm = "forgot-password";
 
 const toggleAuthEmitEvent = "toggle-auth";
 export default {
+    emits: [toggleAuthEmitEvent],
     components: {
         LoginForm,
         RegisterForm,
@@ -44,7 +45,6 @@ export default {
             forgotPassword: forgotPasswordForm,
         };
     },
-    emits: [toggleAuthEmitEvent],
     methods: {
         toggleAuth() {
             this.currentSelectedForm = this.login;
@@ -56,6 +56,7 @@ export default {
 
 <style scoped>
 .auth-section {
-    margin-top: 7.2rem;
+    padding-top: 7.2rem;
+    height: 100%;
 }
 </style>

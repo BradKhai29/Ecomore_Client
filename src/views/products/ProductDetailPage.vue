@@ -141,7 +141,7 @@ export default {
     methods: {
         getProductDetail() {
             const id = this.$route.params.id;
-            console.log(id);
+
             if (id == null || id.length < 36) {
                 this.isProductExisted = false;
             } else {

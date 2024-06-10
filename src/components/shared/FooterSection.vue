@@ -8,19 +8,19 @@
                 <div class="col-lg-3 col-md-6 text-start">
                     <h5 class="text-white mb-4">Thông tin liên hệ</h5>
                     <p class="mb-2">
-                        <i class="fa fa-map-marker-alt me-3"></i>Đại học FPT Đà Nẵng
+                        &bull; Khu đô thị FPT City, Ngũ Hành Sơn, Đại học FPT Đà Nẵng
                     </p>
                     <p class="mb-2">
-                        <i class="fa fa-phone-alt me-3"></i>+012 345 67890
+                        &bull; +84 778 988
                     </p>
                     <a href="mailto:shop.ecomore@gmail.com" class="mb-2">
-                        <i class="fa fa-envelope me-3"></i>shop.ecomore@gmail.com
+                        &bull; shop.ecomore@gmail.com
                     </a>
                 </div>
                 <div class="col-md-6 text-start">
                     <h5 class="text-white mb-4">Đường link</h5>
-                    <a class="btn btn-link text-white-50" href="">Về chúng tôi</a>
-                    <a class="btn btn-link text-white-50" href="">Liên hệ</a>
+                    <a class="d-block text-white-50" href=""> &bull; Về chúng tôi</a>
+                    <a class="d-block text-white-50" href=""> &bull; Liên hệ</a>
                 </div>
                 <div class="col-md-3">
                     <h5 class="text-white mb-4">Hình ảnh liên quan</h5>
@@ -78,8 +78,7 @@
                         class="col-md-6 text-center text-md-start mb-3 mb-md-0"
                     >
                         &copy;
-                        <a class="border-bottom">Ecomorɘ</a>,
-                        All Right Reserved.
+                        <a class="border-bottom">Ecomorɘ</a>.
 
                         <!--/*** This template is free as long as you keep the footer author’s credit link/attribution link/backlink. If you'd like to use the template without the footer author’s credit link/attribution link/backlink, you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". Thank you for your support. ***/-->
                         Designed By
@@ -89,9 +88,8 @@
                     </div>
                     <div class="col-md-6 text-center text-md-end">
                         <div class="footer-menu">
-                            <a href="">Home</a>
-                            <a href="">Help</a>
-                            <a href="">FQAs</a>
+                            <router-link to="/">Trang chủ</router-link>
+                            <a href="">Hỗ trợ</a>
                         </div>
                     </div>
                 </div>

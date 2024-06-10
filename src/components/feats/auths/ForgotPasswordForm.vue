@@ -1,7 +1,6 @@
 <template>
     <div
-        @click="toggleAuth"
-        class="row align-items-center justify-content-center toggleAuth"
+        class="auth-form row align-items-center justify-content-center"
     >
         <!-- Forgot Password Input Start -->
         <section v-if="!showSuccessPopup" class="col-md-4 col-sm-6 my-shadow rounded p-3 bg-white">
@@ -10,10 +9,9 @@
                     <h4 class="m-0">
                         Quên mật khẩu
                     </h4>
-                    <img
-                        class="toggleAuth ms-auto btn btn-white"
-                        src="../../../assets/icons/cross_icon.png"
-                    />
+                    <span @click="toggleAuth" class="ms-auto toggleAuth btn btn-white bg-light border border-2 border-dark">
+                        &#x2716;
+                    </span>
                 </div>
                 <form @submit.prevent="" class="text-start d-flex flex-column">
                     <section class="form-group first mb-3">
@@ -35,7 +33,7 @@
                     </button>
 
                     <div class="d-flex justify-content-center mt-4 mb-2">
-                        <span class="me-2">Quay lại đăng nhập?</span>
+                        <span class="me-2">Nhớ mật khẩu?</span>
                         <a @click="changeToLogin" href="#" class="text-primary fw-bold"
                             >Đăng nhập ngay</a
                         >
@@ -97,10 +95,8 @@ export default {
         };
     },
     methods: {
-        toggleAuth(event) {
-            if (event.target.classList.contains("toggleAuth")) {
-                this.$emit(toggleAuthEmitEvent);
-            }
+        toggleAuth() {
+            this.$emit(toggleAuthEmitEvent);
         },
         changeToLogin() {
             this.$emit(toLoginEmitEvent);

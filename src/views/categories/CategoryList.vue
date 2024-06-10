@@ -4,9 +4,9 @@
             :key="category.name" class="col-lg-3 col-sm-6">
             <a href="#" class="cat-item d-block bg-light text-center rounded p-3">
                 <div class="rounded p-4">
-                    <div class="rounded mb-3">
+                    <div class="cat-item-image rounded mb-3 p-2">
                         <img
-                            class="img-fluid rounded"
+                            class="w-50 img-fluid rounded"
                             :src="category.imageUrl"
                             alt="Icon"
                         />
@@ -26,22 +26,22 @@ export default {
                 {
                     name: "Hạt thô",
                     imageUrl:
-                        "https://res.cloudinary.com/dsjsmbdpw/image/upload/v1717317506/Ecomore/Categories/nut_d43zia.jpg",
+                        "https://res.cloudinary.com/dsjsmbdpw/image/upload/v1717941508/Ecomore/Categories/nuts_qt1drr.png",
                 },
                 {
                     name: "Hạt qua chế biến",
                     imageUrl:
-                        "https://res.cloudinary.com/dsjsmbdpw/image/upload/v1717317505/Ecomore/Categories/processed_nut_zbqexf.jpg",
+                        "https://res.cloudinary.com/dsjsmbdpw/image/upload/v1717941508/Ecomore/Categories/processed_nuts_c5fbby.png",
                 },
                 {
                     name: "Sữa hạt",
                     imageUrl:
-                        "https://res.cloudinary.com/dsjsmbdpw/image/upload/v1717317505/Ecomore/Categories/milk_hbbbun.jpg",
+                        "https://res.cloudinary.com/dsjsmbdpw/image/upload/v1717941508/Ecomore/Categories/nuts_milk_mvhnwp.png",
                 },
                 {
                     name: "Snack hạt",
                     imageUrl:
-                        "https://res.cloudinary.com/dsjsmbdpw/image/upload/v1717317506/Ecomore/Categories/snack_jcvbg5.jpg",
+                        "https://res.cloudinary.com/dsjsmbdpw/image/upload/v1717941508/Ecomore/Categories/snacks_w707k8.png",
                 },
             ],
         }

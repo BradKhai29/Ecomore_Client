@@ -2,7 +2,9 @@
     <section
         class="order-status d-flex flex-column p-3 bg-light rounded-1 mb-3"
     >
-        <p class="m-0 text-center text-primary">TRẠNG THÁI ĐƠN HÀNG</p>
+        <p class="m-0 text-center text-primary">
+            TRẠNG THÁI ĐƠN HÀNG
+        </p>
         <div class="separator"></div>
         <div class="mt-2 d-flex flex-row justify-content-around">
             <div class="text-center">

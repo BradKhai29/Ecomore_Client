@@ -25,20 +25,14 @@
                             alt="Icon"
                         />
                     </div>
-                    <h1 class="m-0 text-primary">
+                    <h2 class="m-0 text-primary">
                         <span class="text-dark">Eco</span>
                         <span class="text-primary">morɘ</span>
-                    </h1>
+                    </h2>
                 </router-link>
                 <!-- Display for mobile mode. -->
                 <section class="flex-row d-flex d-lg-none">
-                    <a
-                        href="#"
-                        @click="toggleAuth"
-                        :class="['nav-icon', toggleAuthClass]"
-                    >
-                        <img class="w-100" src="../../assets/svgs/user.svg" />
-                    </a>
+                    <LoginButton @toggle-auth="toggleAuth"></LoginButton>
                     <CartButton @click="toggleCart"></CartButton>
                 </section>
                 <section class="navbar-collapse collapse" id="navbarCollapse">
@@ -54,8 +48,8 @@
                             </router-link>
                         </li>
                         <li class="nav-item">
-                            <router-link to="/products" class="nav-link">
-                                Liên hệ
+                            <router-link to="/calories" class="nav-link">
+                                Calories
                             </router-link>
                         </li>
                     </ul>
@@ -63,12 +57,7 @@
                 <!-- Display for desktop mode -->
                 <section class="flex-row d-lg-flex d-none">
                     <CartButton @click="toggleCart"></CartButton>
-                    <button
-                        @click="toggleAuth"
-                        :class="['btn btn-link p-0 nav-icon', toggleCartClass]"
-                    >
-                        <img class="w-100" src="../../assets/svgs/user.svg" />
-                    </button>
+                    <LoginButton @toggle-auth="toggleAuth"></LoginButton>
                 </section>
             </nav>
         </section>
@@ -76,11 +65,7 @@
     <!-- Navbar End -->
 
     <!-- Auth Section Start -->
-    <section
-        v-show="showAuth"
-        @click="hideAuth"
-        :class="['auth-modal container-fluid',toggleAuthClass]"
-    >
+    <section v-show="showAuth" :class="['auth-modal container-fluid']">
         <AuthSection @toggle-auth="toggleAuth" v-show="showAuth"></AuthSection>
     </section>
     <!-- Auth Section End -->
@@ -99,14 +84,17 @@
 <script>
 import AuthSection from "../feats/auths/AuthSection.vue";
 import ShoppingCart from "../feats/shoppingCarts/ShoppingCart.vue";
-import CartButton from './CartButton.vue';
+import CartButton from "./CartButton.vue";
+import LoginButton from "./LoginButton.vue";
+import userManager from "../../shared/UserManager";
 
 export default {
     name: "NavigationBar",
     components: {
         AuthSection,
         ShoppingCart,
-        CartButton
+        CartButton,
+        LoginButton,
     },
     data() {
         return {
@@ -115,6 +103,14 @@ export default {
             toggleAuthClass: "toggleAuth",
             toggleCartClass: "toggleCart",
         };
+    },
+    mounted() {
+        userManager.getTokenFromCookie();
+        userManager.verifyAuthentication().then(() => {
+            if (userManager.managedUser.isAuthenticated) {
+                userManager.login();
+            }
+        });
     },
     methods: {
         toggleCart() {

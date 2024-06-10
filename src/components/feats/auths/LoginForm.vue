@@ -1,8 +1,5 @@
 <template>
-    <div
-        @click="toggleAuth"
-        class="row align-items-center justify-content-center toggleAuth"
-    >
+    <div class="auth-form row align-items-center justify-content-center">
         <section class="col-md-4 col-sm-6 my-shadow rounded p-3 bg-white">
             <section class="form-block mx-auto">
                 <div class="d-flex align-items-center mb-5">
@@ -10,46 +7,42 @@
                         Đăng nhập
                         <span class="text-primary">Ecomorɘ</span>
                     </h4>
-                    <img
-                        class="toggleAuth ms-auto btn btn-white"
-                        src="../../../assets/icons/cross_icon.png"
-                    />
+                    <span
+                        @click="toggleAuth"
+                        class="ms-auto btn btn-white bg-light border border-2 border-dark"
+                    >
+                        &#x2716;
+                    </span>
                 </div>
                 <form @submit.prevent="" class="text-start d-flex flex-column">
                     <section class="form-group first mb-3">
-                        <label for="email">
-                            Email<span class="text-danger">*</span>
-                        </label>
-                        <input
-                            type="text"
-                            class="form-control"
-                            placeholder="your-email@gmail.com"
-                            id="email"
-                        />
+                        <AuthInput
+                            :displayErrorMessage="true"
+                            :inputId="email"
+                            inputLabel="Email"
+                            inputType="email"
+                            :isRequired="true"
+                            placeholder="Nhập email của bạn"
+                            inputErrorMessage="Vui lòng nhập email hợp lệ"
+                            @input-update="(value) => (email = value)"
+                            @validate-input="addValidationCallback">
+                        </AuthInput>
                     </section>
                     <section class="form-group d-flex flex-column last mb-3">
-                        <div class="d-flex">
-                            <label for="password">
-                                Mật khẩu<span class="text-danger">*</span>
-                            </label>
-                            <a @click="changeToForgotPassword" href="#" class="ms-auto fw-bold"
-                                >Quên mật khẩu?</a
-                            >
-                        </div>
-                        <div class="input-group mb-3">
-                            <input
-                                type="password"
-                                class="form-control"
-                                placeholder="Nhập mật khẩu của bạn"
-                                id="password"
-                            />
-                            <span class="input-group-text" id="basic-addon1"
-                                >@</span
-                            >
-                        </div>
+                        <PasswordInput
+                            :forLoginPurpose="true"
+                            :inputValue="password"
+                            @input-update="(value) => (password = value)"
+                            @change-to-forgot="changeToForgotPassword"
+                            @validate-input="addValidationCallback">
+                        </PasswordInput>
                     </section>
 
-                    <button class="btn btn-block py-2 btn-primary flex-fill">
+                    <button
+                        @click="login"
+                        type="button"
+                        class="btn btn-block py-2 btn-primary flex-fill"
+                    >
                         Đăng nhập
                     </button>
 
@@ -73,7 +66,10 @@
                     </div>
                     <div class="d-flex justify-content-center mb-2">
                         <span class="me-2">Chưa có tài khoản?</span>
-                        <a @click="changeToRegister" href="#" class="text-primary fw-bold"
+                        <a
+                            @click="changeToRegister"
+                            href="#"
+                            class="text-primary fw-bold"
                             >Đăng ký ngay</a
                         >
                     </div>
@@ -84,24 +80,103 @@
 </template>
 
 <script>
+import axios from "axios";
+import { authApi } from "@/shared/ApiUrls";
+import CookieHelper from "@/shared/helpers/CookieHelper";
+import {
+    AccessTokenCookieName,
+    RefreshTokenCookieName,
+} from "@/shared/AppConstants";
+import userManager from "@/shared/UserManager";
+
+// Import components.
+import AuthInput from "./AuthInput.vue";
+import PasswordInput from "./PasswordInput.vue";
+
 const toggleAuthEmitEvent = "toggle-auth";
 const toRegisterEmitEvent = "to-register";
 const toForgotPasswordEmitEvent = "to-forgot-password";
 
 export default {
-    emits: [toggleAuthEmitEvent, toRegisterEmitEvent, toForgotPasswordEmitEvent],
+    emits: [
+        toggleAuthEmitEvent,
+        toRegisterEmitEvent,
+        toForgotPasswordEmitEvent,
+    ],
+    components: {
+        AuthInput,
+        PasswordInput
+    },
+    data() {
+        return {
+            email: null,
+            password: null,
+            formValidationCallbacks: [],
+        };
+    },
     methods: {
-        toggleAuth(event) {
-            if (event.target.classList.contains("toggleAuth")) {
-                this.$emit(toggleAuthEmitEvent);
-            }
+        addValidationCallback(callback) {
+            this.formValidationCallbacks.push(callback);
+        },
+        toggleAuth() {
+            this.$emit(toggleAuthEmitEvent);
         },
         changeToRegister() {
             this.$emit(toRegisterEmitEvent);
         },
         changeToForgotPassword() {
             this.$emit(toForgotPasswordEmitEvent);
-        }
+        },
+        login() {
+            let isValidToLogin = true;
+
+            for (const validationCallback of this.formValidationCallbacks) {
+                isValidToLogin &= validationCallback();
+            }
+
+            if (!isValidToLogin) {
+                return;
+            }
+
+            axios({
+                url: authApi.login.path,
+                method: authApi.login.method,
+                data: {
+                    email: this.email,
+                    password: this.password,
+                },
+            })
+            .then((response) => {
+                const body = response.data.body;
+
+                const accessToken = body.accessToken;
+                const refreshToken = body.refreshToken;
+
+                CookieHelper.setCookie(
+                    AccessTokenCookieName,
+                    accessToken,
+                    7
+                );
+                CookieHelper.setCookie(
+                    RefreshTokenCookieName,
+                    refreshToken,
+                    7
+                );
+
+                // Emit the toggle auth event to close the login modal.
+                this.$emit(toggleAuthEmitEvent);
+
+                // Get token stored from the cookies and manage.
+                userManager.getTokenFromCookie();
+
+                userManager.verifyAuthentication().then(() => {
+                    if (userManager.managedUser.isAuthenticated) {
+                        userManager.login();
+                    }
+                });
+            })
+            .catch((err) => console.log(err));
+        },
     },
 };
 </script>

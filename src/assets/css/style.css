@@ -4,11 +4,16 @@
 	--medium-z-index: 400;
 	--high-z-index: 900;
 	--primary: rgb(150, 130, 103);
-	--light: #effdf5;
+	--light: #ffffff;
 	--dark: #0e2e50;
 }
 
 /* Custom CSS */
+.auth-form {
+    position: sticky;
+    top: 4rem;
+}
+
 .my-shadow {
 	box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
 		rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
@@ -183,7 +188,7 @@
 
 .cat-item:hover div {
 	background: var(--primary);
-	border-color: transparent;
+	border-color: white;
 }
 
 .cat-item div * {
@@ -193,6 +198,16 @@
 .cat-item:hover div * {
 	color: #ffffff !important;
 }
+
+.cat-item:hover .cat-item-image {
+	background-color: var(--light)!important;
+}
+
+.cat-item-image {
+	background-color: var(--primary)!important;
+	border: 1px dashed var(--light)!important;
+}
+
 
 /*** Product List ***/
 .nav-pills .nav-item .btn {

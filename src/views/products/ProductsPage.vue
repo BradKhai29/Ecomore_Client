@@ -52,7 +52,7 @@
             <div class="col-12"></div>
         </section>
 
-        <section class="row g-4">
+        <section v-if="!isLoading" class="row g-4">
             <ProductItem
                 v-for="product in productList"
                 :key="product.id"
@@ -64,40 +64,37 @@
                 :productStatus="product.status"
             ></ProductItem>
         </section>
+
+        <section v-if="isLoading" class="row g-4">
+            <ProductPlaceholder v-for="item in placeholderList" :key="item">
+            </ProductPlaceholder>
+        </section>
     </section>
     <!-- Product List End -->
 </template>
 
 <script>
 import axios from "axios";
+import { productApi } from "@/shared/ApiUrls";
 import CategoryList from "../categories/CategoryList.vue";
 import ProductItem from "@/components/feats/products/ProductItem.vue";
-import { productApi } from "@/shared/ApiUrls";
+import ProductPlaceholder from "@/components/feats/products/ProductPlaceholder.vue";
 
 export default {
     components: {
         CategoryList,
         ProductItem,
+        ProductPlaceholder,
     },
     mounted() {
-        // for (let i = 0; i < 8; i++) {
-        //     const product = {
-        //         id: `product_${i + 1}`,
-        //         name: `San pham [${i + 1}]`,
-        //         category: "Processed Nut",
-        //         unitPrice: 100_000,
-        //         status: "Con hang",
-        //         imageUrls: [],
-        //     };
-
-        //     this.productList.push(product);
-        // }
         this.getProducts();
     },
     data() {
         return {
+            isLoading: true,
             showDropdown: false,
             productList: [],
+            placeholderList: [1, 2, 3, 4],
             currentSortingTag: null,
             sortingTags: [
                 { name: "default", value: "Mặc định (A - Z)" },
@@ -118,6 +115,7 @@ export default {
                 for (const productItem of body) {
                     this.productList.push(productItem);
                 }
+                this.isLoading = false;
             })
             .catch((err) => console.log(err));
         },

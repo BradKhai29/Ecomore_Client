@@ -2,7 +2,7 @@
     <div :class="extraClassList" class="form-group flex-fill mb-2">
         <label :for="inputId">
             {{ inputLabel }}<span v-if="isRequired" class="text-danger">*</span>
-            <small v-if="isInvalid" class="ms-2">
+            <small v-if="isInvalid && displayError" class="ms-1">
                 (<small class="text-danger">{{ inputErrorMessageRef }}</small
                 >)
             </small>
@@ -38,6 +38,7 @@ export default {
         isRequired: Boolean,
         inputValue: String,
         extraClassList: String,
+        displayErrorMessage: Boolean,
     },
     mounted() {
         // Pass the validateInputValue() method as a callback to
@@ -59,6 +60,13 @@ export default {
 
             return "Vui lòng không để trống";
         },
+        displayError() {
+            if (this.displayErrorMessage == null) {
+                return true;
+            }
+
+            return this.displayErrorMessage;
+        }
     },
     methods: {
         validateInputValue() {

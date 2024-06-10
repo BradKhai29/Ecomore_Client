@@ -4,7 +4,9 @@
             <section class="col-sm-8 my-shadow rounded px-3 py-2 m-0 bg-white">
                 <h5 class="d-flex align-items-center">
                     <span class="me-auto">Giỏ hàng ({{ itemCount }} sản phẩm)</span>
-                    <img class="toggleCart ms-auto btn btn-white" src="../../../assets/icons/cross_icon.png" />
+                    <span class="toggleCart btn btn-white bg-light border border-2 border-dark">
+                        &#x2716;
+                    </span>
                 </h5>
                 <ul v-show="!isCartEmpty" class="d-flex flex-column p-0 m-0 cart-items">
                     <CartItemComponent v-for="cartItem in cartItems" :key="cartItem.productId" :cartId="cartId"
