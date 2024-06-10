@@ -79,8 +79,6 @@ export default {
 
         if (shoppingCartCookie.isExisted) {
             this.cartId = shoppingCartCookie.value;
-        } else {
-            this.initShoppingCart();
         }
     },
     mounted() {
@@ -119,7 +117,8 @@ export default {
             this.isCartEmpty = cartItems.length == 0;
             shoppingCart.updateCart();
         })
-        .catch(() => {
+        .catch((err) => {
+            console.log(err);
             this.initShoppingCart();
         })
         .finally(() => {
