@@ -22,12 +22,6 @@
                                 <label class="mb-1" for="age">
                                     Tuổi của bạn
                                     <span class="text-danger">*</span>
-                                    <small class="ms-2">
-                                        (<small class="text-danger">{{
-                                            inputErrorMessageRef
-                                        }}</small
-                                        >)
-                                    </small>
                                 </label>
                                 <input
                                     v-model="age"
@@ -41,12 +35,6 @@
                                 <label class="mb-1" for="gender">
                                     Giới tính
                                     <span class="text-danger">*</span>
-                                    <small class="ms-2">
-                                        (<small class="text-danger">{{
-                                            inputErrorMessageRef
-                                        }}</small
-                                        >)
-                                    </small>
                                 </label>
                                 <select
                                     v-model="gender"
@@ -71,12 +59,6 @@
                                 <label for="height">
                                     Chiều cao của bạn
                                     <span class="text-danger">*</span>
-                                    <small class="ms-2">
-                                        (<small class="text-danger">{{
-                                            inputErrorMessageRef
-                                        }}</small
-                                        >)
-                                    </small>
                                 </label>
                                 <div class="input-group">
                                     <input
@@ -93,12 +75,6 @@
                                 <label for="weight">
                                     Cân nặng của bạn
                                     <span class="text-danger">*</span>
-                                    <small class="ms-2">
-                                        (<small class="text-danger">{{
-                                            inputErrorMessageRef
-                                        }}</small
-                                        >)
-                                    </small>
                                 </label>
                                 <div class="input-group">
                                     <input

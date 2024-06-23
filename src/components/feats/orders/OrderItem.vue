@@ -50,7 +50,7 @@ export default {
     },
     methods: {
         viewDetail() {
-
+            this.$router.push("/order/" + this.orderId);
         }
     }
 };

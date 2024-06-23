@@ -28,7 +28,7 @@
                         {{ isSuccess ? "Đơn hàng đã được ghi nhận thành công" : "Đã có lỗi xảy ra khi xử lý" }}
                     </h5>
                     <div class="d-flex">
-                        <button class="btn btn-light border-light border-2" v-if="isSuccess">Xem danh sách đơn hàng</button>
+                        <button @click="goToHistoryPage" class="btn btn-light border-light border-2" v-if="isSuccess">Xem danh sách đơn hàng</button>
                         <button @click="goToHome" class="btn btn-light border-light border-2" v-if="!isSuccess">Trở về trang chủ</button>
                     </div>
                 </section>
@@ -98,6 +98,9 @@ export default {
     methods: {
         goToHome() {
             this.$router.push("/");
+        },
+        goToHistoryPage() {
+            this.$router.push("/order");
         }
     }
 };

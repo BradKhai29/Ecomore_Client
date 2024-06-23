@@ -3,91 +3,108 @@
         <!-- Breadcrumb Start -->
         <nav
             v-if="isProductExisted"
-            class="row my-shadow align-items-center rounded"
+            class="row"
             aria-label="breadcrumb"
         >
-            <ul class="breadcrumb mb-0 p-3">
-                <li class="breadcrumb-item">
-                    <router-link to="/products">Sản phẩm</router-link>
-                </li>
-                <li class="breadcrumb-item">
-                    <a href="#">{{ categoryName }}</a>
-                </li>
-                <li class="breadcrumb-item active" aria-current="page">
-                    {{ productName }}
-                </li>
-            </ul>
+            <section class="col-12">
+                <ul class="my-shadow align-items-center rounded breadcrumb mb-0 p-3">
+                    <li class="breadcrumb-item">
+                        <router-link to="/products">Sản phẩm</router-link>
+                    </li>
+                    <li class="breadcrumb-item">
+                        <a href="#">{{ categoryName }}</a>
+                    </li>
+                    <li class="breadcrumb-item active" aria-current="page">
+                        {{ productName }}
+                    </li>
+                </ul>
+            </section>
         </nav>
         <!-- Breadcrumb End -->
 
-        <section v-if="isProductExisted" class="row mt-4 p-3 my-shadow">
-            <div class="col-12 col-sm-6">
-                <div class="row flex-column-reverse flex-md-row">
-                    <section
-                        class="col-12 col-md-2 p-md-0 d-flex flex-row flex-md-column"
-                    >
-                        <figure
-                            v-for="imageUrl in imageUrls"
-                            :key="imageUrl.length"
-                            class="mx-1 mx-sm-0 w-100 rounded my-shadow"
+        <section v-if="isProductExisted" class="container mt-4">
+            <section class="row p-3 my-shadow rounded">
+                <div class="col-12 col-sm-6">
+                    <div class="row flex-column-reverse flex-md-row">
+                        <section
+                            class="col-12 col-md-2 p-md-0 d-flex flex-row flex-md-column"
                         >
-                            <img
-                                class="img-fluid rounded"
-                                :src="imageUrl"
-                                alt="anh_san_pham"
-                            />
-                        </figure>
+                            <figure
+                                v-for="imageUrl in imageUrls"
+                                :key="imageUrl.length"
+                                class="mx-1 mx-sm-0 w-100 rounded my-shadow"
+                            >
+                                <img
+                                    class="img-fluid rounded"
+                                    :src="imageUrl"
+                                    alt="anh_san_pham"
+                                />
+                            </figure>
+                        </section>
+                        <section class="col-12 col-md-10">
+                            <figure class="w-100 rounded my-shadow">
+                                <img
+                                    class="img-fluid rounded"
+                                    :src="imageUrls[0]"
+                                    alt="anh_san_pham"
+                                />
+                            </figure>
+                        </section>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6 m-0 ps-sm-5">
+                    <section id="tags">
+                        <!-- <span class="btn btn-danger">Ban chay</span> -->
                     </section>
-                    <section class="col-12 col-md-10">
-                        <figure class="w-100 rounded my-shadow">
-                            <img
-                                class="img-fluid rounded"
-                                :src="imageUrls[0]"
-                                alt="anh_san_pham"
-                            />
-                        </figure>
+                    <section id="product-description" class="mt-3">
+                        <p class="fw-bold text-dark">{{ productName }}</p>
+                        <p class="fst-italic text-muted">
+                            {{ description }}
+                        </p>
+                    </section>
+                    <section id="price" class="d-flex">
+                        <span class="h4 text-danger me-auto">{{ unitPriceRef }}đ / {{ sellingUnit }}</span>
+                        <span class="fw-bold" :class="{'text-primary' : isInStock, 'text-danger' : !isInStock}">
+                            {{ status }}
+                        </span>
+                    </section>
+                    <!-- Separator -->
+                    <div class="separator"></div>
+                    <!-- Separator -->
+                    <section id="quantity" class="d-flex mt-2 mb-4">
+                        <span class="me-auto">CHỌN SỐ LƯỢNG</span>
+                        <section class="d-flex bg-light my-btn-group text-primary">
+                            <button @click="decreaseQuantity" class="btn-square">
+                                &minus;
+                            </button>
+                            <span class="item-quantity">{{ quantity }}</span>
+                            <button @click="increaseQuantity" class="btn-square">
+                                +
+                            </button>
+                        </section>
+                    </section>
+                    <section id="button-group" class="d-flex">
+                        <button
+                            @click="addToCart"
+                            class="btn btn-light border-2 text-dark flex-fill me-3"
+                        >
+                            Thêm giỏ hàng
+                        </button>
+                        <button class="btn btn-primary flex-fill">Mua ngay</button>
                     </section>
                 </div>
-            </div>
-            <div class="col-12 col-sm-6 m-0 ps-sm-5">
-                <section id="tags">
-                    <span class="btn btn-danger">Ban chay</span>
-                </section>
-                <section id="product-description" class="mt-3">
-                    <p class="fw-bold text-dark">{{ productName }}</p>
-                    <p class="fst-italic text-muted">
-                        {{ description }}
-                    </p>
-                </section>
-                <section id="price" class="d-flex">
-                    <span class="h4 text-primary me-auto">{{ unitPriceRef }} đ</span>
-                    <span>{{ status }}</span>
-                </section>
-                <!-- Separator -->
-                <div class="separator"></div>
-                <!-- Separator -->
-                <section id="quantity" class="d-flex mt-2 mb-4">
-                    <span class="me-auto">CHỌN SỐ LƯỢNG</span>
-                    <section class="d-flex bg-light my-btn-group text-primary">
-                        <button @click="decreaseQuantity" class="btn-square">
-                            &minus;
-                        </button>
-                        <span class="item-quantity">{{ quantity }}</span>
-                        <button @click="increaseQuantity" class="btn-square">
-                            +
-                        </button>
-                    </section>
-                </section>
-                <section id="button-group" class="d-flex">
-                    <button
-                        @click="addToCart"
-                        class="btn btn-light border-2 text-dark flex-fill me-3"
-                    >
-                        Thêm giỏ hàng
-                    </button>
-                    <button class="btn btn-primary flex-fill">Mua ngay</button>
-                </section>
-            </div>
+            </section>
+
+            <!-- Usage of product start -->
+            <section class="row mt-4 p-3 my-shadow rounded">
+                <div class="col-12 p-0">
+                    <h5>
+                        <button class="btn btn-primary my-shadow">Công dụng</button>
+                    </h5>
+                    <p class="m-0">{{ usage }}</p>
+                </div>
+            </section>
+            <!-- Usage of product end -->
         </section>
 
         <section v-if="!isProductExisted" class="row mt-4 p-3 my-shadow">
@@ -128,8 +145,11 @@ export default {
             categoryId: String,
             categoryName: String,
             description: String,
+            usage: String,
             unitPrice: Number,
+            sellingUnit: String,
             status: String,
+            isInStock: false,
             isTopSell: Boolean,
         };
     },
@@ -154,7 +174,10 @@ export default {
                     this.productName = productDetail.name;
                     this.unitPrice = productDetail.unitPrice;
                     this.description = productDetail.description;
-                    this.status = productDetail.status;
+                    this.usage = productDetail.usage;
+                    this.status = productDetail.status == "In Stock" ? "Còn hàng" : "Hết hàng";
+                    this.sellingUnit = this.getSellingUnit(productDetail);
+                    this.isInStock = productDetail.status == "In Stock";
                     this.categoryId = productDetail.category.id;
                     this.categoryName = productDetail.category.name;
                     this.imageUrls = productDetail.imageUrls;
@@ -162,6 +185,24 @@ export default {
                     this.isProductExisted = true;
                 })
                 .catch(err => console.log(err));
+            }
+        },
+        getSellingUnit(productDetail) {
+            const VALUE_IS_NOT_SET = -1;
+            if (productDetail.weight > VALUE_IS_NOT_SET) {
+                return `${productDetail.weight}g`;
+            }
+
+            if (productDetail.volume > VALUE_IS_NOT_SET) {
+                const volumeInMilliliter = productDetail.volume;
+
+                const isMoreThanOneLiter = volumeInMilliliter / 1000.0 >= 1;
+                if (isMoreThanOneLiter) {
+                    return `${volumeInMilliliter / 1000.0 } lít`;
+                }
+                else {
+                    return `${volumeInMilliliter}ml`;
+                }
             }
         },
         increaseQuantity() {
