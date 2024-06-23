@@ -62,7 +62,6 @@ export default {
             totalPrice: null,
             itemCount: 0,
             cartItems: [],
-            isInitShoppingCart: false,
             isCartEmpty: true,
         };
     },
@@ -82,14 +81,6 @@ export default {
         }
     },
     mounted() {
-        // If the shopping cart is newly initialized,
-        // then no need to call api to get the cart details.
-        if (this.isInitShoppingCart) {
-            this.cartItems = shoppingCart.cartItems;
-            this.setUpCallback();
-            return;
-        }
-
         axios({
             url: `${shoppingCartApi.get.path}/${this.cartId}`,
             method: shoppingCartApi.get.method,
@@ -152,8 +143,6 @@ export default {
                     this.cartId,
                     liveDays
                 );
-
-                this.isInitShoppingCart = true;
             })
             .catch((error) => console.log(error));
         },

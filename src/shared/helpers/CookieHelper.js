@@ -1,4 +1,9 @@
 class Cookie {
+	/**
+	 * @param {boolean} isExisted Check if the Cookie is existed or not.
+	 * @param {String} key The key of this cookie.
+	 * @param {String} value The value of this cookie.
+	 */
 	constructor(isExisted, key, value) {
 		this.isExisted = isExisted;
 		this.key = key;
@@ -49,7 +54,7 @@ class CookieHelper {
 				const cookie = cookies[i];
 
 				if (cookie.indexOf(key) != notFoundIndex) {
-					value = cookie.substring(key.length + 1);
+					value = cookie.substring(key.length);
 
 					return new Cookie(true, cookieName, value);
 				}

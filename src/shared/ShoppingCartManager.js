@@ -139,9 +139,7 @@ class ShoppingCartManager {
 	updateCart() {
 		// Call the callbacks to update the shopping cart on the page.
 		for (const callbackItem of this.addToCartCallbacks) {
-			console.log(`Start: [${callbackItem.callbackId}]`);
 			callbackItem.callback();
-			console.log(`End: [${callbackItem.callbackId}]`);
 		}
 	}
 
