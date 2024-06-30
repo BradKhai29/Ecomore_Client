@@ -44,7 +44,7 @@ class ShoppingCartManager {
 	 * @param {Number} totalPrice Total price of this shopping cart.
 	 * @param {Number} itemCount Total numbers of item in this shopping cart.
 	 */
-	constructor(cartItems, addToCartCallbacks, totalPrice, itemCount) {
+	constructor(cartItems, addToCartCallbacks, totalPrice, itemCount, isLoadFromApi) {
 		this.cartItems = cartItems;
 		this.addToCartCallbacks = addToCartCallbacks;
 		if (totalPrice == null || totalPrice == undefined) {
@@ -54,6 +54,7 @@ class ShoppingCartManager {
 		}
 
 		this.itemCount = itemCount;
+		this.isLoadFromApi = isLoadFromApi;
 	}
 
 	/**
@@ -192,5 +193,5 @@ class ShoppingCartManager {
 	}
 }
 
-const shoppingCart = new ShoppingCartManager([], [], 0, 0);
+const shoppingCart = new ShoppingCartManager([], [], 0, 0, false);
 export { CartItem, ShoppingCartManager, shoppingCart };

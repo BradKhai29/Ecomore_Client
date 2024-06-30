@@ -1,24 +1,33 @@
 <template>
-    <header class="container-fluid bg-white p-0 position-relative">
-        <slot name="header"></slot>
-    </header>
-    <main class="container-fluid bg-white">
-        <slot></slot>
-    </main>
-    <footer class="container-fluid">
-        <slot name="footer"></slot>
-    </footer>
+    <section class="container-fluid bg-white p-0 position-relative">
+        <NavigationBar></NavigationBar>
+        <main class="container-fluid p-0 overflow-hidden">
+            <slot></slot>
+        </main>
+        <FooterSection></FooterSection>
+    </section>
 </template>
 
 <script>
+import NavigationBar from "@/components/shared/NavigationBar.vue";
+import FooterSection from "@/components/shared/FooterSection.vue";
+
 export default {
-}
+    components: {
+        NavigationBar,
+        FooterSection,
+    },
+    props: {
+        displayAuth: Boolean,
+    },
+    computed: {
+        showAuth() {
+            if (this.displayAuth == null) {
+                return false;
+            }
+
+            return this.displayAuth;
+        }
+    }
+};
 </script>
-
-<style>
-@import url("../assets/css/bootstrap.min.css");
-@import url("../assets/css/style.css");
-@import url("../assets/lib/animate/animate.min.css");
-
-
-</style>

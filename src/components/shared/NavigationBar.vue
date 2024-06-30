@@ -1,74 +1,114 @@
 <template>
     <!-- Navbar Start -->
-    <section class="my-navbar container-fluid nav-bar sticky-top mt-0 p-0">
-        <section class="container">
-            <nav class="navbar navbar-expand-lg navbar-light p-0">
-                <button
-                    type="button"
-                    class="navbar-toggler"
-                    data-bs-toggle="collapse"
-                    data-bs-target="#navbarCollapse"
-                >
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <router-link
-                    to="/"
-                    class="navbar-brand d-flex me-0 align-items-center text-center"
-                >
-                    <div
-                        class="icon p-0 overflow-hidden me-2"
-                        style="width: 48px; height: 48px"
-                    >
-                        <img
-                            class="w-100 h-100"
-                            src="../../assets/logo.jpg"
-                            alt="Icon"
-                        />
-                    </div>
-                    <h2 class="m-0 text-primary">
-                        <span class="text-dark">Eco</span>
-                        <span class="text-primary">morɘ</span>
-                    </h2>
-                </router-link>
-                <!-- Display for mobile mode. -->
-                <section class="flex-row d-flex d-lg-none">
-                    <LoginButton @toggle-auth="toggleAuth"></LoginButton>
-                    <CartButton @click="toggleCart"></CartButton>
-                </section>
-                <section class="navbar-collapse collapse" id="navbarCollapse">
-                    <ul class="navbar-nav ms-auto text-start">
-                        <li class="nav-item">
-                            <router-link to="/" class="nav-link"
-                                >Trang chủ</router-link
+    <section class="container-fluid p-0 bg-primary">
+        <section class="container py-2">
+            <section class="row flex-row text-light">
+                <div class="col-12 col-sm-6 mb-2 mb-sm-0 d-flex align-items-center justify-content-sm-start justify-content-center">
+                    <span class="text-light-100">
+                        <i class="fa-solid fa-bell fa-lg"></i>
+                        <span class="ms-2">Ưu đãi 10% cho đơn hàng đầu tiên</span>
+                    </span>
+                </div>
+                <div class="col-12 col-sm-6 d-flex justify-content-sm-end justify-content-center">
+                    <a href="https://www.facebook.com/ecomore.vn"
+                    class="btn btn-outline-light rounded-circle d-flex align-items-center"
+                    target="_blank" rel="noopener noreferrer" style="padding: 0 14px">
+                        <i class="fa-brands fa-facebook-f"></i>
+                    </a>
+                    <span class="py-2 d-flex align-items-center mx-3">
+                        <span class="border border-1 border-light h-100"></span>
+                    </span>
+                    <LoginButton></LoginButton>
+                </div>
+            </section>
+        </section>
+
+        <section class="my-navbar bg-light my-text-light container-fluid nav-bar sticky-top mt-0 p-0">
+            <section class="container">
+                <nav class="navbar container flex-column navbar-expand-lg navbar-light p-0">
+                    <div class="row w-100">
+                        <section class="col-4 p-0 d-flex align-items-center">
+                            <button
+                                type="button"
+                                class="navbar-toggler btn"
+                                data-bs-toggle="collapse"
+                                data-bs-target="#navbarCollapse"
                             >
-                        </li>
-                        <li class="nav-item">
-                            <router-link to="/products" class="nav-link">
-                                Sản phẩm
+                                <i class="fa-solid fa-bars"></i>
+                            </button>
+                            <ul class="navbar-collapse collapse navbar-nav text-start">
+                                <li class="nav-item">
+                                    <router-link to="/" class="nav-link"
+                                        >Trang chủ</router-link
+                                    >
+                                </li>
+                                <li class="nav-item">
+                                    <router-link to="/products" class="nav-link">
+                                        Sản phẩm
+                                    </router-link>
+                                </li>
+                                <li class="nav-item">
+                                    <router-link to="/calories" class="nav-link">
+                                        Calories
+                                    </router-link>
+                                </li>
+                            </ul>
+                        </section>
+                        <section class="col-4 d-flex align-items-center justify-content-center">
+                            <router-link
+                                to="/"
+                                class="navbar-brand d-flex me-0 align-items-center justify-content-center"
+                            >
+                                <div
+                                    class="icon p-0 overflow-hidden me-sm-2"
+                                    style="width: 48px; height: 48px"
+                                >
+                                    <img
+                                        class="w-100 h-100"
+                                        src="@/assets/logo.jpg"
+                                        alt="Icon"
+                                    />
+                                </div>
+                                <h3 class="m-0 text-primary d-none d-sm-inline">
+                                    <span class="text-dark">Eco</span>
+                                    <span class="text-primary">morɘ</span>
+                                </h3>
                             </router-link>
-                        </li>
-                        <li class="nav-item">
-                            <router-link to="/calories" class="nav-link">
-                                Calories
-                            </router-link>
-                        </li>
-                    </ul>
-                </section>
-                <!-- Display for desktop mode -->
-                <section class="flex-row d-lg-flex d-none">
-                    <CartButton @click="toggleCart"></CartButton>
-                    <LoginButton @toggle-auth="toggleAuth"></LoginButton>
-                </section>
-            </nav>
+                        </section>
+
+                        <!-- Display for mobile mode. -->
+                        <section class="col-4 p-0 d-flex align-items-center flex-row justify-content-end  d-flex d-lg-none">
+                            <CartButton @click="toggleCart"></CartButton>
+                        </section>
+                        <!-- Display for desktop mode -->
+                        <section class="col-4 p-0 d-flex align-items-center justify-content-end flex-row d-lg-flex d-none">
+                            <CartButton @click="toggleCart"></CartButton>
+                        </section>
+                    </div>
+                    <div class="row w-100 d-block d-md-none">
+                        <ul class="navbar-collapse collapse navbar-nav" id="navbarCollapse">
+                            <li class="nav-item">
+                                <router-link to="/" class="nav-link"
+                                    >Trang chủ</router-link
+                                >
+                            </li>
+                            <li class="nav-item">
+                                <router-link to="/products" class="nav-link">
+                                    Sản phẩm
+                                </router-link>
+                            </li>
+                            <li class="nav-item">
+                                <router-link to="/calories" class="nav-link">
+                                    Calories
+                                </router-link>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+            </section>
         </section>
     </section>
     <!-- Navbar End -->
-
-    <!-- Auth Section Start -->
-    <section v-show="showAuth" :class="['auth-modal container-fluid']">
-        <AuthSection @toggle-auth="toggleAuth" v-show="showAuth"></AuthSection>
-    </section>
-    <!-- Auth Section End -->
 
     <!-- Shopping Cart Section Start -->
     <section
@@ -82,7 +122,6 @@
 </template>
 
 <script>
-import AuthSection from "../feats/auths/AuthSection.vue";
 import ShoppingCart from "../feats/shoppingCarts/ShoppingCart.vue";
 import CartButton from "./CartButton.vue";
 import LoginButton from "./LoginButton.vue";
@@ -91,7 +130,6 @@ import userManager from "../../shared/UserManager";
 export default {
     name: "NavigationBar",
     components: {
-        AuthSection,
         ShoppingCart,
         CartButton,
         LoginButton,
@@ -99,8 +137,6 @@ export default {
     data() {
         return {
             showCart: false,
-            showAuth: false,
-            toggleAuthClass: "toggleAuth",
             toggleCartClass: "toggleCart",
         };
     },
@@ -116,14 +152,6 @@ export default {
         toggleCart() {
             this.showCart = !this.showCart;
         },
-        toggleAuth() {
-            this.showAuth = !this.showAuth;
-        },
-        hideAuth(event) {
-            if (event.target.classList.contains(this.toggleAuthClass)) {
-                this.showAuth = false;
-            }
-        },
         hideCart(event) {
             if (event.target.classList.contains(this.toggleCartClass)) {
                 this.showCart = false;
@@ -135,7 +163,7 @@ export default {
 
 <style scoped>
 .my-navbar {
-    background-color: rgb(248, 241, 228) !important;
+
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px !important;
 }
 

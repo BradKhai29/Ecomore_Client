@@ -19,6 +19,7 @@
 	--bs-gray: #6c757d;
 	--bs-gray-dark: #343a40;
 	--bs-primary: rgb(90, 113, 37);
+	--bs-primary-300: rgb(166, 194, 81);
 	--bs-secondary: var(--bs-gray);
 	--bs-success: var(--bs-green);
 	--bs-info: #0dcaf0;
@@ -3131,7 +3132,7 @@ fieldset:disabled .btn {
 }
 .btn-link {
 	font-weight: 400;
-	color: var(--bs-primary);
+	color: var(--bs-primary-300);
 	text-decoration: none;
 }
 .btn-link:hover {
@@ -3572,7 +3573,7 @@ fieldset:disabled .btn {
 .nav-link {
 	display: block;
 	padding: 0.5rem 1rem;
-	color: var(--bs-primary);
+	color: var(--bs-primary-300);
 	transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out,
 		border-color 0.15s ease-in-out;
 }
@@ -3612,7 +3613,7 @@ fieldset:disabled .btn {
 }
 .nav-tabs .nav-link.active,
 .nav-tabs .nav-item.show .nav-link {
-	color: #495057;
+	color: var(--bs-primary-300);
 	background-color: var(--bs-light);
 	border-color: #dee2e6 #dee2e6 var(--bs-light);
 }
@@ -6787,6 +6788,11 @@ fieldset:disabled .btn {
 .text-primary {
 	color: var(--bs-primary) !important;
 }
+
+.text-primary-300 {
+	color: var(--bs-primary-300) !important;
+}
+
 .text-secondary {
 	color: var(--bs-secondary) !important;
 }

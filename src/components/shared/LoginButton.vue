@@ -1,19 +1,20 @@
 <template>
-    <div class="dropdown nav-icon">
-        <button
-            @click="showDropdown = !showDropdown"
+    <div class="dropdown">
+        <router-link
             v-if="!isLogin"
-            class="btn btn-link p-0 nav-icon"
+            to="/login"
+            class="btn btn-outline-light rounded-pill h-100 d-flex align-items-center"
         >
-            <img class="w-100 h-100" src="../../assets/svgs/user.svg" />
-        </button>
+            <span><i class="fa-regular fa-user fa-sm"></i></span>
+            <span class="ms-1 flex-fill">Thành viên</span>
+        </router-link>
         <button
             @click="showDropdown = !showDropdown"
             v-if="isLogin"
-            class="btn btn-link p-0 nav-icon h-100"
+            class="btn btn-link p-0" style="height: 36px;"
         >
             <img
-                class="my-shadow border border-2 border-primary w-100 h-100 rounded-circle"
+                class="my-shadow w-100 h-100 rounded-circle"
                 :src="avatarUrl"
             />
         </button>
@@ -21,13 +22,6 @@
             v-show="showDropdown"
             class="my-dropdown-menu bg-white rounded py-2 my-shadow"
         >
-            <button
-                v-if="!isLogin"
-                @click="toggleAuth"
-                class="btn btn-light rounded-0 dropdown-item"
-            >
-                Đăng nhập
-            </button>
             <button
                 @click="goToOrderHistoryPage"
                 class="btn btn-light rounded-0 dropdown-item"
@@ -50,11 +44,7 @@ import axios from "axios";
 import userManager from "@/shared/UserManager";
 import { authApi } from "@/shared/ApiUrls";
 
-// Emit event list.
-const toggleAuthEmitEvent = "toggle-auth";
-
 export default {
-    emits: [toggleAuthEmitEvent],
     data() {
         return {
             callbackId: null,
@@ -69,9 +59,8 @@ export default {
         userManager.addLoginCallbacks(this.callbackId, this.updateLogin);
     },
     methods: {
-        toggleAuth() {
-            this.showDropdown = false;
-            this.$emit(toggleAuthEmitEvent);
+        goToLoginPage() {
+            this.$router.push("/login");
         },
         goToOrderHistoryPage() {
             this.showDropdown = false;

@@ -36,14 +36,14 @@
 <script>
 // Import dependencies.
 import axios from "axios";
-import moneyHelper from "../../../shared/helpers/MoneyHelper";
-import cookieHelper from "../../../shared/helpers/CookieHelper";
-import { shoppingCartApi } from "../../../shared/ApiUrls.js";
-import { ShoppingCartCookieName } from "../../../shared/AppConstants";
-import { CartItem, shoppingCart } from "../../../shared/ShoppingCartManager";
+import moneyHelper from "@/shared/helpers/MoneyHelper";
+import cookieHelper from "@/shared/helpers/CookieHelper";
+import { shoppingCartApi } from "@/shared/ApiUrls.js";
+import { ShoppingCartCookieName } from "@/shared/AppConstants";
+import { CartItem, shoppingCart } from "@/shared/ShoppingCartManager";
 
 // Import components.
-import LoadingIcon from "../../shared/LoadingIcon.vue";
+import LoadingIcon from "@/components/shared/LoadingIcon.vue";
 
 export default {
     components: {
@@ -93,7 +93,10 @@ export default {
 
                 shoppingCart.addItem(cartItem);
                 shoppingCart.updateCart();
-                this.isProcessing = false;
+
+                setTimeout(() => {
+                    this.isProcessing = false;
+                }, 400);
             })
             .catch((err) => {
                 this.isProcessing = false;

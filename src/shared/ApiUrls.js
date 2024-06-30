@@ -1,4 +1,6 @@
 const baseUrl = "https://ecom.odour.site/api";
+// const baseUrl = "https://localhost:7106/api";
+
 // List of HttpMethods.
 const HTTP_GET = "get";
 const HTTP_POST = "post";
@@ -17,11 +19,18 @@ class ApiEndpoint {
 	}
 }
 
+// Category Api section.
+const categoryApiUrl = `${baseUrl}/category`;
+const categoryApi = {
+	getAll: new ApiEndpoint(categoryApiUrl, HTTP_GET)
+};
+
 // Product Api section.
 const productApiUrl = `${baseUrl}/product`;
 const productApi = {
 	getAll: new ApiEndpoint(productApiUrl + "/all", HTTP_GET),
 	getById: new ApiEndpoint(productApiUrl, HTTP_GET),
+	getRandomCategoryId: new ApiEndpoint(productApiUrl + "/random-category", HTTP_POST),
 	getByCategoryId: new ApiEndpoint(productApiUrl + "/category", HTTP_GET)
 };
 
@@ -51,9 +60,16 @@ const authApi = {
 	logout: new ApiEndpoint(authApiUrl + "/logout", HTTP_POST),
 	verify: new ApiEndpoint(authApiUrl + "/verify", HTTP_POST),
 	register: new ApiEndpoint(authApiUrl + "/register", HTTP_POST),
+	resendRegisterConfirm: new ApiEndpoint(authApiUrl + "/resend-confirm", HTTP_POST),
 	registerConfirm: new ApiEndpoint(authApiUrl + "/register/confirm", HTTP_GET),
 	forgotPassword: new ApiEndpoint(authApiUrl + "/forgot-password", HTTP_POST),
 };
+
+const googleAuthApiUrl = `${baseUrl}/auth/user/google`;
+const googleAuthApi = {
+	initSecurityState: new ApiEndpoint(googleAuthApiUrl + "/init-state", HTTP_POST),
+	login: new ApiEndpoint(googleAuthApiUrl, HTTP_POST),
+}
 
 const userProfileApiUrl = `${baseUrl}/user`;
 const userProfileApi = {
@@ -67,10 +83,12 @@ const caloriesApi = {
 
 export {
 	ApiEndpoint,
+	categoryApi,
 	productApi,
 	shoppingCartApi,
 	orderApi,
 	authApi,
 	userProfileApi,
-	caloriesApi
+	caloriesApi,
+	googleAuthApi
 };

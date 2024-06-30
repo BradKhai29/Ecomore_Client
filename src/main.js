@@ -1,50 +1,16 @@
 import { createApp } from "vue";
-import { createRouter, createWebHistory } from "vue-router";
 import App from "./App.vue";
-
-// Import all views.
-import HomePage from "./views/HomePage.vue";
-import ProductsPage from "./views/products/ProductsPage.vue";
-import ProductDetailPage from "./views/products/ProductDetailPage.vue";
-import CheckoutPage from "./views/checkouts/CheckoutPage.vue";
-import CheckoutDetailPage from "./views/checkouts/CheckoutDetailPage.vue";
-import CheckoutPaymentPage from "./views/checkouts/CheckoutPaymentPage.vue";
-import OrderHistoryPage from "./views/orders/OrderHistoryPage.vue";
-import OrderDetailPage from "./views/orders/OrderDetailPage.vue";
-import CaloriesPage from "./views/calories/CaloriesPage.vue";
-
-function doNothing() {
-	return 0;
-}
+import router from "./router/router";
+import bootstrap_min_css from "./assets/css/bootstrap.min.css";
+import style_css from "./assets/css/style.css";
+import animate_css from "./assets/lib/animate/animate.min.css";
 
 const app = createApp(App);
 
-const router = createRouter({
-	history: createWebHistory(),
-	routes: [
-		{ path: "/", component: HomePage },
-		{ path: "/home", component: HomePage },
-		{ path: "/products", component: ProductsPage },
-		{ path: "/product/:id", component: ProductDetailPage },
-		{ path: "/checkout", component: CheckoutPage },
-		{ path: "/checkout/detail", component: CheckoutDetailPage },
-		{ path: "/checkout/confirm", component: CheckoutPaymentPage },
-		{ path: "/checkout/cancel", component: CheckoutPaymentPage },
-		{ path: "/checkout/payment", component: CheckoutPaymentPage },
-		{ path: "/order", component: OrderHistoryPage },
-		{ path: "/order/:orderId", component: OrderDetailPage },
-		{ path: "/calories", component: CaloriesPage }
-	],
-	linkActiveClass: "active",
-	linkExactActiveClass: "exact-active",
-	scrollBehavior(to, from, savedPosition) {
-		doNothing(to, from, savedPosition);
-		if (savedPosition) {
-			return savedPosition;
-		}
-		return { left: 0, top: 0 };
-	}
-});
-
+// Configure app.
 app.use(router);
+app.use(bootstrap_min_css);
+app.use(style_css);
+app.use(animate_css);
+
 app.mount("#app");

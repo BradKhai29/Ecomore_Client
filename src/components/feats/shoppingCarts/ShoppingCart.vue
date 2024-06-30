@@ -28,7 +28,7 @@
                     <span class="text-dark">{{ totalPriceRef }}đ</span>
                 </p>
                 <div class="d-flex toggleCart" @click="hideCart">
-                    <button @click="goToCheckoutPage" class="flex-fill ms-auto btn btn-outline-primary">
+                    <button @click="goToCheckoutPage" class="flex-fill ms-auto btn btn-primary my-shadow rounded-1">
                         Đi đến thanh toán
                     </button>
                 </div>
@@ -81,6 +81,12 @@ export default {
         }
     },
     mounted() {
+        if (shoppingCart.isLoadFromApi) {
+            this.reloadCart();
+            this.setUpCallback();
+            return;
+        }
+
         axios({
             url: `${shoppingCartApi.get.path}/${this.cartId}`,
             method: shoppingCartApi.get.method,
@@ -104,6 +110,7 @@ export default {
                 shoppingCart.addItem(cartItem);
             }
 
+            shoppingCart.isLoadFromApi = true;
             this.cartItems = shoppingCart.cartItems;
             this.isCartEmpty = cartItems.length == 0;
             shoppingCart.updateCart();
@@ -123,7 +130,7 @@ export default {
                 this.$emit(toggleCartEvent);
             }
         },
-        updateCart() {
+        reloadCart() {
             this.cartItems = shoppingCart.cartItems;
             this.totalPrice = shoppingCart.totalPrice;
             this.itemCount = shoppingCart.getItemCount();
@@ -153,7 +160,7 @@ export default {
         setUpCallback() {
             shoppingCart.addCallback(
                 `shopping_cart_${this.cartId}`,
-                this.updateCart
+                this.reloadCart
             );
         },
     }

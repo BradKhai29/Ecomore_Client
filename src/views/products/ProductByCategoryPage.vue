@@ -1,9 +1,9 @@
 <template>
     <BaseLayout>
     <!-- Category List section Start -->
-        <section class="container mt-4">
+       <section class="container mt-4">
             <section class="text-center mx-auto mb-5">
-                <h4 class="mb-3 text-primary pb-4">DANH MỤC BÁN CHẠY</h4>
+                <h4 class="mb-3 text-primary pb-4">DANH MỤC SẢN PHẨM</h4>
                 <CategoryList></CategoryList>
             </section>
         </section>
@@ -45,9 +45,9 @@ import { productApi } from "@/shared/ApiUrls";
 
 // Import components.
 import BaseLayout from '@/layouts/BaseLayout.vue';
-import CategoryList from "@/components/feats/categories/CategoryList.vue";
 import ProductItem from "@/components/feats/products/ProductItem.vue";
 import ProductPlaceholder from "@/components/feats/products/ProductPlaceholder.vue";
+import CategoryList from "@/components/feats/categories/CategoryList.vue";
 
 export default {
     components: {
@@ -57,6 +57,7 @@ export default {
         ProductPlaceholder,
     },
     mounted() {
+        console.log("Mounted");
         this.getProducts();
     },
     data() {
@@ -65,19 +66,17 @@ export default {
             showDropdown: false,
             productList: [],
             placeholderList: [1, 2, 3, 4],
-            currentSortingTag: null,
-            sortingTags: [
-                { name: "default", value: "Mặc định (A - Z)" },
-                { name: "best-sell", value: "Bán chạy" },
-                { name: "new", value: "Mới nhất" },
-            ],
+            categoryId: null,
         };
     },
     methods: {
         getProducts() {
+            this.productList.splice(0, this.productList.length);
+            this.categoryId = this.$route.params.id;
+
             axios({
-                url: `${productApi.getAll.path}/0`,
-                method: productApi.getAll.method,
+                url: `${productApi.getByCategoryId.path}/${this.categoryId}`,
+                method: productApi.getByCategoryId.method,
             })
             .then((response) => {
                 const body = response.data.body;
@@ -88,45 +87,12 @@ export default {
                 this.isLoading = false;
             })
             .catch((err) => console.log(err));
-        },
-        selectSortingTag(event) {
-            const selectedTag = event.target;
-
-            const foundTag = this.sortingTags.find(
-                (item) => item.name == selectedTag.id
-            );
-
-            if (foundTag) {
-                this.currentSortingTag = foundTag.value;
-                this.showDropdown = false;
-            }
-        },
+        }
     },
-    computed: {
-        selectedSortingTag() {
-            return this.currentSortingTag
-                ? this.currentSortingTag
-                : this.sortingTags[0].value;
-        },
-    },
+    watch: {
+        $route: function(from, to) {
+            this.getProducts(from, to);
+        }
+    }
 };
 </script>
-
-<style scoped>
-.filter-tag {
-    width: 10rem;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-.dropdown-icon {
-    height: 24px;
-}
-
-.my-dropdown-menu {
-    position: absolute;
-    right: 0;
-    z-index: 900;
-}
-</style>
